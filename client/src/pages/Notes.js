@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import NoteForm from '../components/NoteForm';
+import NoteForm from '../components/organisms/NoteForm';
 
 const Notes = function () {
     const [notes, setNotes] = useState([]);

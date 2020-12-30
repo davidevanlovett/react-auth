@@ -1,5 +1,9 @@
 {
-    "extends": "react-app",
+    "extends": [
+        "react-app",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended"
+    ],
     "rules": {
         "no-duplicate-case": "error",
         "no-empty": "error",
@@ -30,6 +34,7 @@
             "always"
         ],
         "prefer-arrow-callback": "error",
-        "prefer-const": "error"
+        "prefer-const": "error",
+        "react/react-in-jsx-scope": "off"
     }
 }

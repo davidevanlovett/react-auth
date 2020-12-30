@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const NoteForm = (props) => {
     const { didSubmit } = props;
@@ -42,6 +43,10 @@ const NoteForm = (props) => {
             </form>
         </div>
     );
+};
+
+NoteForm.propTypes = {
+    didSubmit: PropTypes.func
 };
 
 export default NoteForm;

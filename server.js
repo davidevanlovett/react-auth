@@ -14,8 +14,6 @@ const PORT = process.env.PORT || 3001;
 const db = require('./models');
 // Bringing in Morgan, a nice logger for our server
 const morgan = require('morgan');
-// Compression
-const compression = require('compression');
 // Creating express app
 const app = express();
 
@@ -25,8 +23,6 @@ if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'));
 }
 
-// enable compression middleware
-app.use(compression());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 if (process.env.NODE_ENV === 'production') {
@@ -42,13 +38,6 @@ app.get('*', (req, res) => {
 });
 
 db.sequelize.sync({force:false}).then(function () {
-    if (process.env.NODE_ENV === 'test') {
-        db.User.create({ email: 'test@test.com', password: 'password' }).then(
-            () => {
-                console.log('Test User Created');
-            }
-        );
-    }
     app.listen(PORT, function () {
         console.log(`Server now on port ${PORT}!`);
     });

@@ -1,7 +1,27 @@
-const expressJwt = require('express-jwt');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
-    // express-jwt handles decoding and checking the signature of our tokens for us
-    // And nicely sticks the user in the request.
-    isAuthenticated: expressJwt({ secret: process.env.SECRET, algorithms: ['HS256'] })
+    isAuthenticated: (req, res, next) => {
+        const { headers} = req;
+        const { authorization } = headers;
+        if(authorization === undefined){
+            res.status(401).send();
+        } else {
+            const token = authorization.split(' ')[1];
+            if(token === undefined || token === ''){
+                res.status(401).send();
+            } else {
+                jwt.verify(token, process.env.SECRET, {
+                    algorithms: ['HS256']
+                }, (err, decoded) => {
+                    if(err){
+                        res.status(401).send();
+                    } else{
+                        req.user = decoded;
+                        next();
+                    }
+                });
+            }
+        }
+    }
 };

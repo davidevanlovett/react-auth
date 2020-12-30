@@ -1,7 +1,8 @@
-import Navbar from './components/Navbar';
+import Navbar from './components/organisms/Navbar';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import useAuth from './hooks/auth';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
@@ -53,6 +54,10 @@ function App() {
 }
 
 // Yanked straight from the react-router docs for redirects
+PrivateRoute.propTypes = {
+    children: PropTypes.element.isRequired,
+};
+
 function PrivateRoute({ children, ...rest }) {
     const { isLoggedIn } = useAuth();
     return (
