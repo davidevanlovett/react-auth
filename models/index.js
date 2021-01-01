@@ -1,3 +1,6 @@
+/* eslint-disable security/detect-object-injection */
+/* eslint-disable security/detect-non-literal-require */
+/* eslint-disable security/detect-non-literal-fs-filename */
 'use strict';
 
 const fs = require('fs');
@@ -7,14 +10,13 @@ const basename = path.basename(module.filename);
 
 // removing config.json, since it blows things up.
 const env = process.env.NODE_ENV;
-const prodDb = process.env.JAWSDB_URL;
+const prodDb = process.env.PRODDB_URL;
 const localDb = process.env.LOCALDB_URL;
 const sequelize = new Sequelize(env === 'production' ? prodDb : localDb);
 
 const db = {};
 
-fs
-    .readdirSync(__dirname)
+fs.readdirSync(__dirname)
     .filter(function(file) {
         return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
     })

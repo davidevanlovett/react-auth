@@ -23,5 +23,9 @@ module.exports = {
                 });
             }
         }
+    },
+    handleError: (err, req, res, _next) => {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
     }
 };

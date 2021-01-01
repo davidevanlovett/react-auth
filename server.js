@@ -4,32 +4,30 @@ require('dotenv').config();
 // Disable this at your own risk
 require('./utils/verifyConfiguration')();
 
-// Requiring necessary npm packages
 const express = require('express');
 const path = require('path');
-// Requiring our routes
-const routes = require('./controllers');
-// Setting up port and requiring models for syncing
-const PORT = process.env.PORT || 3001;
-const db = require('./models');
-// Bringing in Morgan, a nice logger for our server
+const helmet = require('helmet');
 const morgan = require('morgan');
-// Creating express app
 const app = express();
+
+const middleware = require('./utils/middleware');
+const routes = require('./controllers');
+const db = require('./models');
+
+const PORT = process.env.PORT || 3001;
 
 // Set up our middleware!
 // Dev Logging. Only works in test or development
 if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'));
+} else {
+    app.use(express.static('client/build'));
 }
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-}
-
-// Add all our backend routes
+app.use(helmet());
+app.use(middleware.handleError);
 app.use(routes);
 
 // Send all other requests to react app
