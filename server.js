@@ -1,7 +1,4 @@
 require('dotenv').config();
-
-// Configuration check.
-// Disable this at your own risk
 require('./utils/verifyConfiguration')();
 
 const express = require('express');
@@ -16,8 +13,6 @@ const db = require('./models');
 
 const PORT = process.env.PORT || 3001;
 
-// Set up our middleware!
-// Dev Logging. Only works in test or development
 if (process.env.NODE_ENV !== 'production') {
     app.use(morgan('dev'));
 } else {

@@ -9,7 +9,7 @@ const signAsync = util.promisify(jwt.sign);
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        // Find user
+
         const user = await db.User.scope('withPassword').findOne({ where: {email:email }});
         if (!user) {
             res.status(400).send('User not found.');
@@ -18,7 +18,7 @@ router.post('/login', async (req, res) => {
         if (!isGoodPassword) {
             res.status(400).send('Invalid Password.');
         }
-        // Create JWT token
+
         const token = await signAsync(
             { id: user.id, email: user.email },
             process.env.SECRET,
@@ -27,7 +27,6 @@ router.post('/login', async (req, res) => {
                 algorithm: 'HS256'
             }
         );
-        // send token and user data back. Selecting only certain parts of the user
         res.json({
             token, user: {
                 id: user.id,
@@ -53,7 +52,6 @@ router.post('/signup', async (req, res) => {
         if (!user) {
             res.status(400).send('Cannot create user.');
         }
-        // Create JWT token
         const token = await signAsync(
             { id: user.id, email: user.email },
             process.env.SECRET,
@@ -62,7 +60,6 @@ router.post('/signup', async (req, res) => {
                 algorithm: 'HS256'
             }
         );
-        // send token and user data back. Selecting only certain parts of the user
         res.json({
             token, user: {
                 id: user.id,

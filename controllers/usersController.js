@@ -22,12 +22,9 @@ router.get('/:id', isAuthenticated, function(req, res) {
 
 /**
  * User - Create
- * Notice how we are using the 'withPassword' scope.
- * This allows for us to modify a user's password, as defined in the User model
  */
 router.post('/', isAuthenticated, function(req, res) {
-    db.User.scope('withPassword')
-        .create(req.body)
+    db.User.create(req.body)
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err));
 });

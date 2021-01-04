@@ -1,7 +1,7 @@
 const db = require('../models');
 const router = require('express').Router();
 const isAuthenticated = require('../utils/middleware').isAuthenticated;
-// const authCheck = require('../utils/middleware').authCheck;
+
 /**
  * Note - Read All
  */
@@ -23,8 +23,6 @@ router.get('/:id', [isAuthenticated], function(req, res) {
 
 /**
  * Note - Create
- * Notice how we are also taking in the User Id! Important!
- * We need the isAuthenticated middleware in the route to have a user in the request
  */
 router.post('/', [isAuthenticated], function(req, res) {
     db.Note.create({
@@ -53,5 +51,4 @@ router.delete('/:id', [isAuthenticated], function(req, res) {
         .catch(err => res.status(422).json(err));
 });
 
-// Defining methods for the booksController
 module.exports = router;
